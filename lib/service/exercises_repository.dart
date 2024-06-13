@@ -9,4 +9,12 @@ class ExercisesRepository{
   Future<void> saveExercise(Exercise exercise)async{
     await _exercisesBox.put(exercise.id, exercise);
   }
+
+  List<Exercise?> fetchExercises(){
+    final List<Exercise?> exercises = [];
+    for(var exercise in _exercisesBox.values){
+      exercises.add(_exercisesBox.get(exercise!.id));
+    }
+    return exercises;
+  }
 }
