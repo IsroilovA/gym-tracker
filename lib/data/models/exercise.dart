@@ -15,8 +15,11 @@ class Exercise {
   final int repetitions;
   @HiveField(3)
   final double weight;
+  @HiveField(4)
+  final String programId;
 
-  Exercise(id, this.name, this.repetitions, this.weight) : id = id ?? uuid.v4();
+  Exercise(id, this.name, this.repetitions, this.weight, this.programId)
+      : id = id ?? uuid.v4();
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -24,6 +27,7 @@ class Exercise {
       'name': name,
       'repetitions': repetitions,
       'weight': weight,
+      'programId': programId,
     };
   }
 
@@ -33,6 +37,7 @@ class Exercise {
       map['name'] as String,
       int.parse(map['repetitions'] as String),
       double.parse(map['weight'] as String),
+      map['programId'] as String,
     );
   }
 }
