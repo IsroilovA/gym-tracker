@@ -1,6 +1,8 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uuid/uuid.dart';
 
+part 'exercise.g.dart';
+
 const uuid = Uuid();
 
 @HiveType(typeId: 0)
