@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gym_tracker/home/home_screen.dart';
 import 'package:gym_tracker/tabs/cubit/tabs_cubit.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -34,7 +35,9 @@ class _TabsScreenState extends State<TabsScreen> {
           if (state is TabsInitial) {
             return IndexedStack(
               index: selectedTab,
-              children: const [],
+              children: const [
+                HomeScreen(),
+              ],
             );
           } else if (state is TabsError) {
             return Center(
