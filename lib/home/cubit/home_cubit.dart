@@ -13,13 +13,14 @@ class HomeCubit extends Cubit<HomeState> {
 
   final ExercisesRepository _exercisesRepository;
 
-  void fetchProgram() async {
+  void fetchPrograms() async {
     try {
       final workoutPrograms = await _exercisesRepository.fetchWorkoutPrograms();
       if (workoutPrograms.isEmpty) {
         emit(HomeNoProgramm());
+      } else {
+        emit(HomeWorkoutProgramsFetched(workoutPrograms));
       }
-      emit(HomeWorkoutProgramsFetched(workoutPrograms));
     } catch (e) {
       emit(HomeError(e.toString()));
     }
