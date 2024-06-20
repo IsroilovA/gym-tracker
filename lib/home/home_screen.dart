@@ -42,11 +42,19 @@ class HomeScreen extends StatelessWidget {
                 } else if (state is ProgramsFetched) {
                   return Expanded(
                     child: ListView.builder(
-                      itemCount: state.workoutPrograms.length,
+                      itemCount: state.workoutPrograms.length + 1,
                       itemBuilder: (context, index) {
-                        return WorkoutCard(
-                          workoutProgram: state.workoutPrograms[index]!,
-                        );
+                        return (index != state.workoutPrograms.length)
+                            ? WorkoutCard(
+                                workoutProgram: state.workoutPrograms[index]!,
+                              )
+                            : IconButton(
+                                icon: const Icon(Icons.add),
+                                onPressed: () {
+                                  BlocProvider.of<ProgramsCubit>(context)
+                                      .showNewWorkoutDialog(context);
+                                },
+                              );
                       },
                     ),
                   );
