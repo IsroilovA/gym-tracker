@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_tracker/calendar/calendar.dart';
-import 'package:gym_tracker/home/cubit/home_cubit.dart';
+import 'package:gym_tracker/home/cubit/programs_cubit.dart';
 import 'package:gym_tracker/home/home_screen.dart';
 import 'package:gym_tracker/service/exercises_repository.dart';
 import 'package:gym_tracker/service/locator.dart';
@@ -41,7 +41,7 @@ class _TabsScreenState extends State<TabsScreen> {
               index: selectedTab,
               children: [
                 BlocProvider(
-                  create: (context) => HomeCubit(
+                  create: (context) => ProgramsCubit(
                       exerciseRepository: locator<ExercisesRepository>()),
                   child: const HomeScreen(),
                 ),

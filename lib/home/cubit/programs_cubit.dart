@@ -1,16 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_tracker/data/models/exercise.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
 import 'package:gym_tracker/service/exercises_repository.dart';
 import 'package:meta/meta.dart';
 
-part 'home_state.dart';
+part 'programs_state.dart';
 
-class HomeCubit extends Cubit<HomeState> {
-  HomeCubit({required ExercisesRepository exerciseRepository})
+class ProgramsCubit extends Cubit<ProgramsState> {
+  ProgramsCubit({required ExercisesRepository exerciseRepository})
       : _exercisesRepository = exerciseRepository,
-        super(HomeInitial());
+        super(ProgramsInitial());
 
   final ExercisesRepository _exercisesRepository;
 
@@ -18,12 +17,12 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       final workoutPrograms = await _exercisesRepository.fetchWorkoutPrograms();
       if (workoutPrograms.isEmpty) {
-        emit(HomeNoProgramm());
+        emit(NoPrograms());
       } else {
-        emit(HomeWorkoutProgramsFetched(workoutPrograms));
+        emit(ProgramsFetched(workoutPrograms));
       }
     } catch (e) {
-      emit(HomeError(e.toString()));
+      emit(ProgramsError(e.toString()));
     }
   }
 
@@ -31,7 +30,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       _exercisesRepository.saveWorkoutProgram(workoutProgram);
     } catch (e) {
-      emit(HomeError(e.toString()));
+      emit(ProgramsError(e.toString()));
     }
   }
 
@@ -42,11 +41,21 @@ class HomeCubit extends Cubit<HomeState> {
       context: context,
       builder: (context) => SimpleDialog(
         contentPadding: const EdgeInsets.all(20),
-        title: Text(
-          "New Work Out Program",
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "New Program",
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+            ),
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.close))
+          ],
         ),
         children: [
           Form(
@@ -66,20 +75,26 @@ class HomeCubit extends Cubit<HomeState> {
                     name = value!;
                   },
                 ),
-                TextButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.primaryContainer,
+                const SizedBox(height: 15),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          Theme.of(context).colorScheme.primaryContainer,
+                    ),
+                    onPressed: () {
+                      final isValid = form.currentState!.validate();
+                      if (!isValid) {
+                        return;
+                      }
+                      form.currentState!.save();
+                      saveWorkoutProgram(WorkoutProgram(name: name));
+                      Navigator.of(context).pop();
+                      emit(ProgramsInitial());
+                    },
+                    child: const Text("Save"),
                   ),
-                  onPressed: () {
-                    final isValid = form.currentState!.validate();
-                    if (!isValid) {
-                      return;
-                    }
-                    form.currentState!.save();
-                    saveWorkoutProgram(WorkoutProgram(name: name));
-                  },
-                  child: const Text("Save"),
                 ),
               ],
             ),
