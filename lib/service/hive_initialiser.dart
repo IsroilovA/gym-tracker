@@ -11,9 +11,9 @@ Future<void> initialiseHive() async {
   Hive.registerAdapter(ExerciseAdapter());
   Hive.registerAdapter(WorkoutProgramAdapter());
   //boxed
-  final exercisesBox = await Hive.openBox<Exercise>(exercisesKey);
+  final exercisesBox = await Hive.openBox<Exercise?>(exercisesKey);
   final workoutProgramsBox =
-      await Hive.openBox<WorkoutProgram>(workoutProgramsKey);
+      await Hive.openBox<WorkoutProgram?>(workoutProgramsKey);
   //repository
   ExercisesRepository(
       exercisesBox: exercisesBox, workoutProgramsBox: workoutProgramsBox);

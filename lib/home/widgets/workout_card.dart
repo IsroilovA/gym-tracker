@@ -21,7 +21,7 @@ class _WorkoutCardState extends State<WorkoutCard> {
               Text(widget.workoutProgram.name),
               IconButton(onPressed: () {}, icon: const Icon(Icons.add))
             ],
-          )
+          ),
         ],
       ),
     );

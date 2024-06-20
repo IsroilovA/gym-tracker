@@ -24,6 +24,15 @@ class ExercisesRepository {
     return exercises;
   }
 
+  List<Exercise?> fetchWorkoutExercises(WorkoutProgram workoutProgram) {
+    if (_exercisesBox.isEmpty) {
+      return [];
+    }
+    return _exercisesBox.values
+        .where((exercise) => exercise!.id == workoutProgram.id)
+        .toList();
+  }
+
   Future<void> saveWorkoutProgram(WorkoutProgram workoutProgram) async {
     await _workoutProgramsBox.put(workoutProgram.id, workoutProgram);
   }

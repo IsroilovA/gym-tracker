@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gym_tracker/calendar/calendar.dart';
+import 'package:gym_tracker/home/cubit/home_cubit.dart';
 import 'package:gym_tracker/home/home_screen.dart';
+import 'package:gym_tracker/service/exercises_repository.dart';
+import 'package:gym_tracker/service/locator.dart';
 import 'package:gym_tracker/tabs/cubit/tabs_cubit.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -15,7 +19,7 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     final selectedTab = context.select((TabsCubit cubit) => cubit.pageIndex);
     String pageTitle = switch (selectedTab) {
-      0 => "Work out",
+      0 => "Workouts",
       1 => "Callendar",
       _ => throw UnimplementedError(),
     };
@@ -35,8 +39,13 @@ class _TabsScreenState extends State<TabsScreen> {
           if (state is TabsInitial) {
             return IndexedStack(
               index: selectedTab,
-              children: const [
-                HomeScreen(),
+              children: [
+                BlocProvider(
+                  create: (context) => HomeCubit(
+                      exerciseRepository: locator<ExercisesRepository>()),
+                  child: const HomeScreen(),
+                ),
+                const Calendar(),
               ],
             );
           } else if (state is TabsError) {
@@ -62,14 +71,14 @@ class _TabsScreenState extends State<TabsScreen> {
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.currency_exchange_outlined),
-            label: "Rates",
-            activeIcon: Icon(Icons.currency_exchange),
+            icon: Icon(Icons.sports_gymnastics_outlined),
+            label: "Workouts",
+            activeIcon: Icon(Icons.sports_gymnastics),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calculate_outlined),
-            label: "Calculator",
-            activeIcon: Icon(Icons.calculate),
+            icon: Icon(Icons.calendar_month_outlined),
+            label: "Calendar",
+            activeIcon: Icon(Icons.calendar_month),
           ),
         ],
       ),

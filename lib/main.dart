@@ -1,9 +1,13 @@
-// Theme for the light mode
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_tracker/service/hive_initialiser.dart';
+import 'package:gym_tracker/service/locator.dart';
+import 'package:gym_tracker/tabs/cubit/tabs_cubit.dart';
+import 'package:gym_tracker/tabs/tabs_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
+// Theme for the light mode
 final lightTheme = ThemeData(
   useMaterial3: true,
   colorScheme: ColorScheme.fromSeed(
@@ -29,9 +33,9 @@ final darkTheme = ThemeData(
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Hive.initFlutter();
-  // await initialiseHive();
-  // await initialiseLocator();
+  await Hive.initFlutter();
+  await initialiseHive();
+  await initialiseLocator();
   runApp(const App());
 }
 
@@ -44,7 +48,9 @@ class App extends StatelessWidget {
     return MaterialApp(
         theme: lightTheme, // Applying the light theme
         darkTheme: darkTheme, // Applying the dark theme
-        // home: ...
-        );
+        home: BlocProvider(
+          create: (context) => TabsCubit(),
+          child: const TabsScreen(),
+        ));
   }
 }
