@@ -17,8 +17,8 @@ class WorkoutProgramAdapter extends TypeAdapter<WorkoutProgram> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return WorkoutProgram(
-      fields[0] as String,
-      fields[1] as dynamic,
+      name: fields[0] as String,
+      id: fields[1] as dynamic,
     );
   }
 

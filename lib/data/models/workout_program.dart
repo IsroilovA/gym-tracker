@@ -12,7 +12,7 @@ class WorkoutProgram {
   @HiveField(1)
   final String id;
 
-  WorkoutProgram(this.name, id) : id = id ?? uuid.v4();
+  WorkoutProgram({required this.name, id}) : id = id ?? uuid.v4();
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -23,8 +23,8 @@ class WorkoutProgram {
 
   factory WorkoutProgram.fromMap(Map<String, dynamic> map) {
     return WorkoutProgram(
-      map['id'] as String,
-      map['name'] as String,
+      id: map['id'] as String,
+      name: map['name'] as String,
     );
   }
 }

@@ -17,11 +17,11 @@ class ExerciseAdapter extends TypeAdapter<Exercise> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Exercise(
-      fields[0] as dynamic,
-      fields[1] as String,
-      fields[2] as int,
-      fields[3] as double,
-      fields[4] as String,
+      id: fields[0] as dynamic,
+      name: fields[1] as String,
+      repetitions: fields[2] as int,
+      weight: fields[3] as double,
+      programId: fields[4] as String,
     );
   }
 
