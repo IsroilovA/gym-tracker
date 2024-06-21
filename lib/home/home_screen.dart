@@ -44,25 +44,26 @@ class HomeScreen extends StatelessWidget {
                   );
                 } else if (state is ProgramsFetched) {
                   return Expanded(
-                    child: BlocProvider(
-                      create: (context) => ExercisesCubit(
-                          exerciseRepository: locator<ExercisesRepository>()),
-                      child: ListView.builder(
-                        itemCount: state.workoutPrograms.length + 1,
-                        itemBuilder: (context, index) {
-                          return (index != state.workoutPrograms.length)
-                              ? WorkoutCard(
-                                  workoutProgram: state.workoutPrograms[index]!,
-                                )
-                              : IconButton(
-                                  icon: const Icon(Icons.add),
-                                  onPressed: () {
-                                    BlocProvider.of<ProgramsCubit>(context)
-                                        .showNewWorkoutDialog(context);
-                                  },
-                                );
-                        },
-                      ),
+                    child: ListView.builder(
+                      itemCount: state.workoutPrograms.length + 1,
+                      itemBuilder: (context, index) {
+                        return (index != state.workoutPrograms.length)
+                            ? BlocProvider(
+                                create: (context) => ExercisesCubit(
+                        exerciseRepository: locator<ExercisesRepository>()),
+                                child: WorkoutCard(
+                                  workoutProgram:
+                                      state.workoutPrograms[index]!,
+                                ),
+                              )
+                            : IconButton(
+                                icon: const Icon(Icons.add),
+                                onPressed: () {
+                                  BlocProvider.of<ProgramsCubit>(context)
+                                      .showNewWorkoutDialog(context);
+                                },
+                              );
+                      },
                     ),
                   );
                 } else if (state is ProgramsError) {
