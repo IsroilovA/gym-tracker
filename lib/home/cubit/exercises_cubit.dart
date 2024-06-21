@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gym_tracker/data/models/exercise.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
 import 'package:gym_tracker/home/widgets/number_text_field.dart';
@@ -85,11 +84,18 @@ class ExercisesCubit extends Cubit<ExercisesState> {
                 ),
                 const SizedBox(height: 15),
                 NumberTextField(
+                  isDouble: false,
                   onSaved: (value) {
-                    repetitions = value;
+                    repetitions = int.parse(value);
                   },
                 ),
                 const SizedBox(height: 15),
+                NumberTextField(
+                  isDouble: true,
+                  onSaved: (value) {
+                    weight = double.parse(value);
+                  },
+                ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
