@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gym_tracker/data/models/exercise.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
+import 'package:gym_tracker/home/widgets/number_text_field.dart';
 import 'package:gym_tracker/service/exercises_repository.dart';
 import 'package:meta/meta.dart';
 
@@ -67,6 +68,7 @@ class ExercisesCubit extends Cubit<ExercisesState> {
           Form(
             key: form,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
                   decoration: const InputDecoration(labelText: "Name"),
@@ -82,49 +84,12 @@ class ExercisesCubit extends Cubit<ExercisesState> {
                   },
                 ),
                 const SizedBox(height: 15),
-                Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          String newText =
-                              (int.parse(repetitionsController.value.text) - 1)
-                                  .toString();
-                          repetitionsController.value =
-                              repetitionsController.value.copyWith(
-                                  text: newText,
-                                  selection: TextSelection.collapsed(
-                                      offset: newText.length));
-                        },
-                        icon: const Icon(Icons.minimize_outlined)),
-                    TextFormField(
-                      controller: repetitionsController,
-                      decoration:
-                          const InputDecoration(labelText: "Repetitions"),
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Please enter the number';
-                        } else if (int.tryParse(value) == null) {
-                          return 'You can enter numbers only';
-                        }
-                        return null;
-                      },
-                      onSaved: (newValue) => repetitions = int.parse(newValue!),
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          String newText =
-                              (int.parse(repetitionsController.value.text) + 1)
-                                  .toString();
-                          repetitionsController.value =
-                              repetitionsController.value.copyWith(
-                                  text: newText,
-                                  selection: TextSelection.collapsed(
-                                      offset: newText.length));
-                        },
-                        icon: const Icon(Icons.add)),
-                  ],
+                NumberTextField(
+                  onSaved: (value) {
+                    repetitions = value;
+                  },
                 ),
+                const SizedBox(height: 15),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(

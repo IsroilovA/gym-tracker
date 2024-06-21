@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
 import 'package:gym_tracker/home/cubit/programs_cubit.dart';
 import 'package:gym_tracker/home/widgets/workout_card.dart';
+import 'package:gym_tracker/service/exercises_repository.dart';
+import 'package:gym_tracker/service/locator.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -41,21 +44,25 @@ class HomeScreen extends StatelessWidget {
                   );
                 } else if (state is ProgramsFetched) {
                   return Expanded(
-                    child: ListView.builder(
-                      itemCount: state.workoutPrograms.length + 1,
-                      itemBuilder: (context, index) {
-                        return (index != state.workoutPrograms.length)
-                            ? WorkoutCard(
-                                workoutProgram: state.workoutPrograms[index]!,
-                              )
-                            : IconButton(
-                                icon: const Icon(Icons.add),
-                                onPressed: () {
-                                  BlocProvider.of<ProgramsCubit>(context)
-                                      .showNewWorkoutDialog(context);
-                                },
-                              );
-                      },
+                    child: BlocProvider(
+                      create: (context) => ExercisesCubit(
+                          exerciseRepository: locator<ExercisesRepository>()),
+                      child: ListView.builder(
+                        itemCount: state.workoutPrograms.length + 1,
+                        itemBuilder: (context, index) {
+                          return (index != state.workoutPrograms.length)
+                              ? WorkoutCard(
+                                  workoutProgram: state.workoutPrograms[index]!,
+                                )
+                              : IconButton(
+                                  icon: const Icon(Icons.add),
+                                  onPressed: () {
+                                    BlocProvider.of<ProgramsCubit>(context)
+                                        .showNewWorkoutDialog(context);
+                                  },
+                                );
+                        },
+                      ),
                     ),
                   );
                 } else if (state is ProgramsError) {
