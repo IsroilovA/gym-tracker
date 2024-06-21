@@ -21,6 +21,7 @@ class _WorkoutCardState extends State<WorkoutCard> {
       child: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 10, right: 15, left: 15),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,7 +35,8 @@ class _WorkoutCardState extends State<WorkoutCard> {
                 IconButton(
                     onPressed: () {
                       BlocProvider.of<ExercisesCubit>(context)
-                          .showNewExerciseDialog(context);
+                          .showNewExerciseDialog(
+                              context, widget.workoutProgram);
                     },
                     icon: const Icon(Icons.add))
               ],
@@ -57,8 +59,10 @@ class _WorkoutCardState extends State<WorkoutCard> {
                     ),
                   );
                 } else if (state is ExercisesFetched) {
-                  return Expanded(
+                  return Flexible(
                     child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.exercises.length,
                       itemBuilder: (context, index) {
                         return ExerciseCard(exercise: state.exercises[index]!);

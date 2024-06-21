@@ -37,12 +37,12 @@ class ExercisesCubit extends Cubit<ExercisesState> {
     }
   }
 
-  void showNewExerciseDialog(BuildContext context) {
+  void showNewExerciseDialog(
+      BuildContext context, WorkoutProgram workoutProgram) {
     final form = GlobalKey<FormState>();
-    final repetitionsController = TextEditingController(text: '0');
     String name = '';
-    int repetitions;
-    double weight;
+    late int repetitions;
+    late double weight;
     showDialog(
       context: context,
       builder: (context) => SimpleDialog(
@@ -108,10 +108,14 @@ class ExercisesCubit extends Cubit<ExercisesState> {
                       if (!isValid) {
                         return;
                       }
-                      // form.currentState!.save();
-                      // saveWorkoutProgram(WorkoutProgram(name: name));
-                      // Navigator.of(context).pop();
-                      // emit(ProgramsInitial());
+                      form.currentState!.save();
+                      saveProgramExercises(Exercise(
+                          name: name,
+                          repetitions: repetitions,
+                          weight: weight,
+                          programId: workoutProgram.id));
+                      Navigator.of(context).pop();
+                      emit(ExercisesInitial());
                     },
                     child: const Text("Save"),
                   ),

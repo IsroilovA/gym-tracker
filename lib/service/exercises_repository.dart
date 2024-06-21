@@ -25,11 +25,8 @@ class ExercisesRepository {
   }
 
   List<Exercise?> fetchWorkoutExercises(WorkoutProgram workoutProgram) {
-    if (_exercisesBox.isEmpty) {
-      return [];
-    }
     return _exercisesBox.values
-        .where((exercise) => exercise!.id == workoutProgram.id)
+        .where((exercise) => exercise!.programId == workoutProgram.id)
         .toList();
   }
 
