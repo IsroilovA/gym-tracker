@@ -16,7 +16,14 @@ class _ExerciseCardState extends State<ExerciseCard> {
     return Card(
       child: Column(
         children: [
-          Text(widget.exercise.name),
+          Text(
+            widget.exercise.name,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+          ),
+          Text('${widget.exercise.repetitions}'),
+          Text('${widget.exercise.weight}')
         ],
       ),
     );

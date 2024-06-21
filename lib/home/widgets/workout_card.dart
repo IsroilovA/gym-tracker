@@ -22,25 +22,31 @@ class _WorkoutCardState extends State<WorkoutCard> {
       color: Theme.of(context).colorScheme.primaryContainer,
       child: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 10, right: 15, left: 15),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  widget.workoutProgram.name,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      ),
-                ),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.add))
-              ],
-            ),
-            const SizedBox(height: 15),
-            BlocProvider(
-              create: (context) => ExercisesCubit(
-                  exerciseRepository: locator<ExercisesRepository>()),
-              child: BlocBuilder<ExercisesCubit, ExercisesState>(
+        child: BlocProvider(
+          create: (context) => ExercisesCubit(
+              exerciseRepository: locator<ExercisesRepository>()),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.workoutProgram.name,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        BlocProvider.of<ExercisesCubit>(context)
+                            .showNewExerciseDialog(context);
+                      },
+                      icon: const Icon(Icons.add))
+                ],
+              ),
+              const SizedBox(height: 15),
+              BlocBuilder<ExercisesCubit, ExercisesState>(
                 builder: (context, state) {
                   if (state is ExercisesInitial) {
                     BlocProvider.of<ExercisesCubit>(context)
@@ -75,8 +81,8 @@ class _WorkoutCardState extends State<WorkoutCard> {
                   }
                 },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
