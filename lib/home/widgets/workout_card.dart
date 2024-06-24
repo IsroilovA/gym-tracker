@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
 import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
+import 'package:gym_tracker/home/cubit/programs_cubit.dart';
 import 'package:gym_tracker/home/widgets/exercise_card.dart';
 
 class WorkoutCard extends StatefulWidget {
@@ -52,7 +53,10 @@ class _WorkoutCardState extends State<WorkoutCard> {
                             leading: Icon(Icons.edit),
                           )),
                       PopupMenuItem(
-                          onTap: () {},
+                          onTap: () {
+                            BlocProvider.of<ProgramsCubit>(context)
+                                .deleteWorkout(widget.workoutProgram);
+                          },
                           child: const ListTile(
                             title: Text('delete workout'),
                             leading: Icon(Icons.delete),

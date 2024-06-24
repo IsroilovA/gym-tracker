@@ -34,6 +34,20 @@ class ExercisesRepository {
     await _workoutProgramsBox.put(workoutProgram.id, workoutProgram);
   }
 
+  Future<void> deleteWorkout(WorkoutProgram workoutProgram) async {
+    await _workoutProgramsBox.delete(workoutProgram.id);
+    final exercises = _exercisesBox.values.where(
+      (element) => element!.programId == workoutProgram.id,
+    );
+    for (final exercise in exercises) {
+      _exercisesBox.delete(exercise!.id);
+    }
+  }
+
+  Future<void> editWorkoutName(WorkoutProgram workoutProgram) async {
+    await _workoutProgramsBox.put(workoutProgram.id, workoutProgram);
+  }
+
   List<WorkoutProgram?> fetchWorkoutPrograms() {
     final List<WorkoutProgram?> workoutPrograms = [];
     for (var program in _workoutProgramsBox.values) {
