@@ -4,7 +4,6 @@ import 'package:gym_tracker/data/models/exercise.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
 import 'package:gym_tracker/home/widgets/number_text_field.dart';
 import 'package:gym_tracker/service/exercises_repository.dart';
-import 'package:meta/meta.dart';
 
 part 'exercises_state.dart';
 

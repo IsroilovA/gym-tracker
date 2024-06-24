@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
 import 'package:gym_tracker/home/cubit/exercises_cubit.dart';

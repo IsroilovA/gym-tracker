@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
 import 'package:gym_tracker/service/exercises_repository.dart';
-import 'package:meta/meta.dart';
 
 part 'programs_state.dart';
 
