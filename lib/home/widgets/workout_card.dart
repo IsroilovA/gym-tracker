@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
 import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
@@ -15,6 +16,23 @@ class WorkoutCard extends StatefulWidget {
 }
 
 class _WorkoutCardState extends State<WorkoutCard> {
+  bool isEdit = false;
+  final _nameController = TextEditingController();
+  final FocusNode _nameFocus = FocusNode();
+
+  @override
+  void initState() {
+    _nameController.text = widget.workoutProgram.name;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _nameFocus.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -27,12 +45,29 @@ class _WorkoutCardState extends State<WorkoutCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.workoutProgram.name,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      ),
-                ),
+                if (isEdit)
+                  Expanded(
+                    child: TextField(
+                      controller: _nameController,
+                      focusNode: _nameFocus,
+                      onSubmitted: (value) {
+                        BlocProvider.of<ProgramsCubit>(context).editProgram(
+                            WorkoutProgram(
+                                name: value, id: widget.workoutProgram.id));
+                        setState(() {
+                          isEdit = false;
+                        });
+                      },
+                    ),
+                  )
+                else
+                  Text(
+                    widget.workoutProgram.name,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
+                  ),
                 PopupMenuButton(
                   itemBuilder: (context) {
                     return [
@@ -47,7 +82,12 @@ class _WorkoutCardState extends State<WorkoutCard> {
                             leading: Icon(Icons.add),
                           )),
                       PopupMenuItem(
-                          onTap: () {},
+                          onTap: () {
+                            setState(() {
+                              isEdit = true;
+                              _nameFocus.requestFocus();
+                            });
+                          },
                           child: const ListTile(
                             title: Text('edit workout name'),
                             leading: Icon(Icons.edit),

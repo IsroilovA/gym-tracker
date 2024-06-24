@@ -26,6 +26,15 @@ class ProgramsCubit extends Cubit<ProgramsState> {
     }
   }
 
+  void editProgram(WorkoutProgram workoutProgram) {
+    try {
+      _exercisesRepository.editWorkoutName(workoutProgram);
+      emit(ProgramsInitial());
+    } catch (e) {
+      emit(ProgramsError(e.toString()));
+    }
+  }
+
   void deleteWorkout(WorkoutProgram workoutProgram) async {
     try {
       _exercisesRepository.deleteWorkout(workoutProgram);
