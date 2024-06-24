@@ -32,13 +32,34 @@ class _WorkoutCardState extends State<WorkoutCard> {
                         color: Theme.of(context).colorScheme.onPrimaryContainer,
                       ),
                 ),
-                IconButton(
-                    onPressed: () {
-                      BlocProvider.of<ExercisesCubit>(context)
-                          .showNewExerciseDialog(
-                              context, widget.workoutProgram);
-                    },
-                    icon: const Icon(Icons.add))
+                PopupMenuButton(
+                  itemBuilder: (context) {
+                    return [
+                      PopupMenuItem(
+                          onTap: () {
+                            BlocProvider.of<ExercisesCubit>(context)
+                                .showNewExerciseDialog(
+                                    context, widget.workoutProgram);
+                          },
+                          child: const ListTile(
+                            title: Text('add new exercise'),
+                            leading: Icon(Icons.add),
+                          )),
+                      PopupMenuItem(
+                          onTap: () {},
+                          child: const ListTile(
+                            title: Text('edit workout name'),
+                            leading: Icon(Icons.edit),
+                          )),
+                      PopupMenuItem(
+                          onTap: () {},
+                          child: const ListTile(
+                            title: Text('delete workout'),
+                            leading: Icon(Icons.delete),
+                          )),
+                    ];
+                  },
+                )
               ],
             ),
             const SizedBox(height: 15),
