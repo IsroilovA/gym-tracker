@@ -16,47 +16,69 @@ class ProgramDetails extends StatefulWidget {
 class _ProgramDetailsState extends State<ProgramDetails> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.workoutProgram.name),
       ),
-      body: BlocBuilder<ExercisesCubit, ExercisesState>(
-        builder: (context, state) {
-          if (state is ExercisesInitial) {
-            BlocProvider.of<ExercisesCubit>(context)
-                .fetchProgramExercises(widget.workoutProgram);
-            return const Center(
-              child: CircularProgressIndicator.adaptive(),
-            );
-          } else if (state is NoExercises) {
-            return Center(
-              child: Text(
-                "No exercises added",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: Theme.of(context).colorScheme.onSurface),
-              ),
-            );
-          } else if (state is ExercisesFetched) {
-            return Flexible(
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: state.exercises.length,
-                itemBuilder: (context, index) {
-                  return ExerciseDetails(exercise: state.exercises[index]!);
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 25, right: 15, left: 15),
+        child: Column(
+          children: [
+            Expanded(
+              child: BlocBuilder<ExercisesCubit, ExercisesState>(
+                builder: (context, state) {
+                  if (state is ExercisesInitial) {
+                    BlocProvider.of<ExercisesCubit>(context)
+                        .fetchProgramExercises(widget.workoutProgram);
+                    return const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    );
+                  } else if (state is NoExercises) {
+                    return Center(
+                      child: Text(
+                        "No exercises added",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface),
+                      ),
+                    );
+                  } else if (state is ExercisesFetched) {
+                    return Flexible(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: state.exercises.length,
+                        itemBuilder: (context, index) {
+                          return ExerciseDetails(
+                              exercise: state.exercises[index]!);
+                        },
+                      ),
+                    );
+                  } else if (state is ExercisesError) {
+                    return Center(child: Text(state.error));
+                  } else {
+                    return const Center(
+                      child: Text("Something went wrong"),
+                    );
+                  }
                 },
               ),
-            );
-          } else if (state is ExercisesError) {
-            return Center(child: Text(state.error));
-          } else {
-            return const Center(
-              child: Text("Something went wrong"),
-            );
-          }
-        },
+            ),
+            TextButton.icon(
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      Theme.of(context).colorScheme.primaryContainer,
+                  minimumSize: Size(size.width, 45)),
+              icon: const Icon(Icons.edit),
+              label: Text(
+                'Edit',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

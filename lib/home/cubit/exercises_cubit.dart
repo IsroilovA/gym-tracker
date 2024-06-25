@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/data/models/exercise.dart';
+import 'package:gym_tracker/data/models/exercise_set.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
 import 'package:gym_tracker/home/widgets/number_text_field.dart';
 import 'package:gym_tracker/service/exercises_repository.dart';
@@ -31,6 +32,8 @@ class ExercisesCubit extends Cubit<ExercisesState> {
   void saveProgramExercises(Exercise exercise) {
     try {
       _exerciseRepository.saveExercise(exercise);
+      _exerciseRepository.saveExerciseSet(
+          ExerciseSet(repetitionCount: 1, weight: 0, exerciseId: exercise.id));
     } catch (e) {
       emit(ExercisesError(e.toString()));
     }
@@ -133,9 +136,8 @@ class ExercisesCubit extends Cubit<ExercisesState> {
                       }
                       form.currentState!.save();
                       if (exercise == null) {
-                        saveProgramExercises(Exercise(
-                            name: name,
-                            programId: workoutProgramId));
+                        saveProgramExercises(
+                            Exercise(name: name, programId: workoutProgramId));
                       } else {
                         saveProgramExercises(Exercise(
                             id: exercise.id,

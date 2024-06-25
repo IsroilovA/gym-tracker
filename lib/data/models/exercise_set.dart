@@ -10,7 +10,7 @@ class ExerciseSet {
   @HiveField(0)
   final String exerciseId;
   @HiveField(1)
-  final int repetitions;
+  final int repetitionCount;
   @HiveField(2)
   final String id;
   @HiveField(3)
@@ -18,7 +18,7 @@ class ExerciseSet {
 
   ExerciseSet({
     id,
-    required this.repetitions,
+    required this.repetitionCount,
     required this.weight,
     required this.exerciseId,
   }) : id = id ?? uuid.v4();
@@ -26,7 +26,7 @@ class ExerciseSet {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'repetitions': repetitions,
+      'repetitions': repetitionCount,
       'weight': weight,
       'exerciseId': exerciseId,
     };
@@ -35,7 +35,7 @@ class ExerciseSet {
   factory ExerciseSet.fromMap(Map<String, dynamic> map) {
     return ExerciseSet(
       id: map['id'] as String,
-      repetitions: int.parse(map['repetitions'] as String),
+      repetitionCount: int.parse(map['repetitions'] as String),
       weight: double.parse(map['weight'] as String),
       exerciseId: map['exerciseId'] as String,
     );

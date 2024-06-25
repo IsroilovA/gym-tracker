@@ -18,7 +18,7 @@ class ExerciseSetAdapter extends TypeAdapter<ExerciseSet> {
     };
     return ExerciseSet(
       id: fields[2] as dynamic,
-      repetitions: fields[1] as int,
+      repetitionCount: fields[1] as int,
       weight: fields[3] as double,
       exerciseId: fields[0] as String,
     );
@@ -31,7 +31,7 @@ class ExerciseSetAdapter extends TypeAdapter<ExerciseSet> {
       ..writeByte(0)
       ..write(obj.exerciseId)
       ..writeByte(1)
-      ..write(obj.repetitions)
+      ..write(obj.repetitionCount)
       ..writeByte(2)
       ..write(obj.id)
       ..writeByte(3)

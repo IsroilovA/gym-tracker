@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gym_tracker/data/models/exercise.dart';
+import 'package:gym_tracker/data/models/exercise_set.dart';
 
 class SetCard extends StatelessWidget {
   const SetCard({
     super.key,
-    required this.exercise,
+    required this.exerciseSet,
   });
 
-  final Exercise exercise;
+  final ExerciseSet exerciseSet;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class SetCard extends StatelessWidget {
           children: [
             const Text('1'),
             const SizedBox(width: 15),
-            Text('${exercise.name} Reps'),
+            Text('${exerciseSet.repetitionCount} Reps'),
           ],
         )
       ],
