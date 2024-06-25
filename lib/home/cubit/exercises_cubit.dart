@@ -37,11 +37,20 @@ class ExercisesCubit extends Cubit<ExercisesState> {
   }
 
   void showNewExerciseDialog(
-      BuildContext context, WorkoutProgram workoutProgram) {
+      {required BuildContext context,
+      required String workoutProgramId,
+      Exercise? exercise}) {
     final form = GlobalKey<FormState>();
     String name = '';
-    late int repetitions;
-    late double weight;
+    int repetitions = 0;
+    int sets = 0;
+    double weight = 0.0;
+    if (exercise != null) {
+      name = exercise.name;
+      repetitions = exercise.repetitions;
+      sets = exercise.sets;
+      weight = exercise.weight;
+    }
     showDialog(
       context: context,
       builder: (context) => SimpleDialog(
@@ -69,6 +78,7 @@ class ExercisesCubit extends Cubit<ExercisesState> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
+                  initialValue: name,
                   decoration: const InputDecoration(labelText: "Name"),
                   textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
@@ -83,6 +93,8 @@ class ExercisesCubit extends Cubit<ExercisesState> {
                 ),
                 const SizedBox(height: 15),
                 NumberTextField(
+                  initialValue: repetitions.toString(),
+                  inputDecoration: const InputDecoration(labelText: 'Reps'),
                   isDouble: false,
                   onSaved: (value) {
                     repetitions = int.parse(value);
@@ -90,11 +102,26 @@ class ExercisesCubit extends Cubit<ExercisesState> {
                 ),
                 const SizedBox(height: 15),
                 NumberTextField(
+                  initialValue: sets.toString(),
+                  inputDecoration: const InputDecoration(labelText: 'Sets'),
+                  isDouble: false,
+                  onSaved: (value) {
+                    sets = int.parse(value);
+                  },
+                ),
+                const SizedBox(height: 15),
+                NumberTextField(
+                  initialValue: weight.toString(),
+                  inputDecoration: const InputDecoration(
+                    labelText: 'Weight',
+                    suffixText: 'kg',
+                  ),
                   isDouble: true,
                   onSaved: (value) {
                     weight = double.parse(value);
                   },
                 ),
+                const SizedBox(height: 15),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
@@ -108,11 +135,22 @@ class ExercisesCubit extends Cubit<ExercisesState> {
                         return;
                       }
                       form.currentState!.save();
-                      saveProgramExercises(Exercise(
-                          name: name,
-                          repetitions: repetitions,
-                          weight: weight,
-                          programId: workoutProgram.id));
+                      if (exercise == null) {
+                        saveProgramExercises(Exercise(
+                            name: name,
+                            repetitions: repetitions,
+                            sets: sets,
+                            weight: weight,
+                            programId: workoutProgramId));
+                      } else {
+                        saveProgramExercises(Exercise(
+                            id: exercise.id,
+                            name: name,
+                            repetitions: repetitions,
+                            sets: sets,
+                            weight: weight,
+                            programId: workoutProgramId));
+                      }
                       Navigator.of(context).pop();
                       emit(ExercisesInitial());
                     },

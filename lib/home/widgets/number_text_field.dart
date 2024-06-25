@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 
 class NumberTextField extends StatelessWidget {
-  const NumberTextField({
-    super.key,
-    required this.isDouble,
-    required this.onSaved,
-  });
+  const NumberTextField(
+      {super.key,
+      required this.isDouble,
+      required this.onSaved,
+      this.inputDecoration,
+      this.initialValue});
 
   final bool isDouble;
   final ValueChanged<String> onSaved;
+  final InputDecoration? inputDecoration;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
     final repetitionsController =
-        TextEditingController(text: isDouble ? '0.0' : '0');
+        TextEditingController(text: initialValue);
     return Row(
       children: [
         IconButton(
@@ -33,12 +36,10 @@ class NumberTextField extends StatelessWidget {
           },
           icon: const Icon(Icons.minimize_outlined),
         ),
-        Expanded(
+        Flexible(
           child: TextFormField(
             controller: repetitionsController,
-            decoration: InputDecoration(
-              labelText: isDouble ? 'Weight' : "Repetitions",
-            ),
+            decoration: inputDecoration,
             keyboardType: TextInputType.number,
             validator: (value) {
               if (value == '0' || value == '0.0' || value!.trim().isEmpty) {

@@ -20,15 +20,16 @@ class ExerciseAdapter extends TypeAdapter<Exercise> {
       id: fields[0] as dynamic,
       name: fields[1] as String,
       repetitions: fields[2] as int,
-      weight: fields[3] as double,
-      programId: fields[4] as String,
+      weight: fields[4] as double,
+      programId: fields[5] as String,
+      sets: fields[3] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Exercise obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -36,8 +37,10 @@ class ExerciseAdapter extends TypeAdapter<Exercise> {
       ..writeByte(2)
       ..write(obj.repetitions)
       ..writeByte(3)
-      ..write(obj.weight)
+      ..write(obj.sets)
       ..writeByte(4)
+      ..write(obj.weight)
+      ..writeByte(5)
       ..write(obj.programId);
   }
 

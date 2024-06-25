@@ -74,7 +74,8 @@ class _WorkoutCardState extends State<WorkoutCard> {
                           onTap: () {
                             BlocProvider.of<ExercisesCubit>(context)
                                 .showNewExerciseDialog(
-                                    context, widget.workoutProgram);
+                                    context: context,
+                                    workoutProgramId: widget.workoutProgram.id);
                           },
                           child: const ListTile(
                             title: Text('add new exercise'),
