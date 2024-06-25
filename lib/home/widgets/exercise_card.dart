@@ -23,18 +23,27 @@ class _ExerciseCardState extends State<ExerciseCard> {
             exercise: widget.exercise);
       },
       child: Card(
-        child: Column(
-          children: [
-            Text(
-              widget.exercise.name,
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-            ),
-            Text('${widget.exercise.repetitions}'),
-            Text('${widget.exercise.sets}'),
-            Text('${widget.exercise.weight}')
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                widget.exercise.name,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: Theme.of(context).colorScheme.onSurface),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '${widget.exercise.sets} x ${widget.exercise.repetitions}',
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
         ),
       ),
     );

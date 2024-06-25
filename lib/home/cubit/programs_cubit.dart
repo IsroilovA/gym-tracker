@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
+import 'package:gym_tracker/home/program_details.dart';
 import 'package:gym_tracker/service/exercises_repository.dart';
 
 part 'programs_state.dart';
@@ -23,6 +24,12 @@ class ProgramsCubit extends Cubit<ProgramsState> {
     } catch (e) {
       emit(ProgramsError(e.toString()));
     }
+  }
+
+  void navigateToDetailed(
+      {required BuildContext context, required WorkoutProgram workoutProgram}) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => ProgramDetails(workoutProgram: workoutProgram)));
   }
 
   void editProgram(WorkoutProgram workoutProgram) {
