@@ -18,7 +18,7 @@ class SetCard extends StatelessWidget {
           children: [
             const Text('1'),
             const SizedBox(width: 15),
-            Text('${exercise.repetitions} Reps'),
+            Text('${exercise.name} Reps'),
           ],
         )
       ],

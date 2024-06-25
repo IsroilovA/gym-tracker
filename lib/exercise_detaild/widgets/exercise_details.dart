@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/data/models/exercise.dart';
-import 'package:gym_tracker/home/widgets/set_card.dart';
+import 'package:gym_tracker/exercise_detaild/widgets/set_card.dart';
 
 class ExerciseDetails extends StatefulWidget {
   const ExerciseDetails({super.key, required this.exercise});

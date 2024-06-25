@@ -16,6 +16,16 @@ class ExercisesRepository {
   final Box<WorkoutProgram?> _workoutProgramsBox;
   final Box<ExerciseSet?> _exerciseSetsBox;
 
+  Future<void> saveExerciseSet(ExerciseSet exerciseSet) async {
+    await _exerciseSetsBox.put(exerciseSet.id, exerciseSet);
+  }
+
+  List<ExerciseSet?> fetchExerciseSets(Exercise exercise) {
+    return _exerciseSetsBox.values
+        .where((exerciseSet) => exerciseSet!.exerciseId == exercise.id)
+        .toList();
+  }
+
   Future<void> saveExercise(Exercise exercise) async {
     await _exercisesBox.put(exercise.id, exercise);
   }
