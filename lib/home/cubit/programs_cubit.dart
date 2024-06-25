@@ -1,8 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
-import 'package:gym_tracker/home/program_details.dart';
+import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
+import 'package:gym_tracker/home/program_details_screen.dart';
 import 'package:gym_tracker/service/exercises_repository.dart';
+import 'package:gym_tracker/service/locator.dart';
 
 part 'programs_state.dart';
 
@@ -29,7 +32,11 @@ class ProgramsCubit extends Cubit<ProgramsState> {
   void navigateToDetailed(
       {required BuildContext context, required WorkoutProgram workoutProgram}) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => ProgramDetails(workoutProgram: workoutProgram)));
+        builder: (context) => BlocProvider(
+              create: (context) => ExercisesCubit(
+                  exerciseRepository: locator<ExercisesRepository>()),
+              child: ProgramDetails(workoutProgram: workoutProgram),
+            )));
   }
 
   void editProgram(WorkoutProgram workoutProgram) {

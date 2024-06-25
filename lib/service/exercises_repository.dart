@@ -1,16 +1,20 @@
 import 'package:gym_tracker/data/models/exercise.dart';
+import 'package:gym_tracker/data/models/exercise_set.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
 import 'package:hive/hive.dart';
 
 class ExercisesRepository {
   ExercisesRepository(
       {required Box<Exercise?> exercisesBox,
-      required Box<WorkoutProgram?> workoutProgramsBox})
+      required Box<WorkoutProgram?> workoutProgramsBox,
+      required Box<ExerciseSet?> exerciseSetsBox})
       : _exercisesBox = exercisesBox,
-        _workoutProgramsBox = workoutProgramsBox;
+        _workoutProgramsBox = workoutProgramsBox,
+        _exerciseSetsBox = exerciseSetsBox;
 
   final Box<Exercise?> _exercisesBox;
   final Box<WorkoutProgram?> _workoutProgramsBox;
+  final Box<ExerciseSet?> _exerciseSetsBox;
 
   Future<void> saveExercise(Exercise exercise) async {
     await _exercisesBox.put(exercise.id, exercise);

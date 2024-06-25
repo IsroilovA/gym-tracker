@@ -37,7 +37,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
               ),
               const SizedBox(height: 8),
               Text(
-                '${widget.exercise.sets} x ${widget.exercise.repetitions}',
+                '${widget.exercise.name} x ${widget.exercise.name}',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.bold),

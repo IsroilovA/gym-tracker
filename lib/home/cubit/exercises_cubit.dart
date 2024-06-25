@@ -47,9 +47,6 @@ class ExercisesCubit extends Cubit<ExercisesState> {
     double weight = 0.0;
     if (exercise != null) {
       name = exercise.name;
-      repetitions = exercise.repetitions;
-      sets = exercise.sets;
-      weight = exercise.weight;
     }
     showDialog(
       context: context,
@@ -138,17 +135,11 @@ class ExercisesCubit extends Cubit<ExercisesState> {
                       if (exercise == null) {
                         saveProgramExercises(Exercise(
                             name: name,
-                            repetitions: repetitions,
-                            sets: sets,
-                            weight: weight,
                             programId: workoutProgramId));
                       } else {
                         saveProgramExercises(Exercise(
                             id: exercise.id,
                             name: name,
-                            repetitions: repetitions,
-                            sets: sets,
-                            weight: weight,
                             programId: workoutProgramId));
                       }
                       Navigator.of(context).pop();
