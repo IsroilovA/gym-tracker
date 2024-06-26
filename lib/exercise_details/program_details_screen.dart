@@ -35,12 +35,27 @@ class _ProgramDetailsState extends State<ProgramDetails> {
                       child: CircularProgressIndicator.adaptive(),
                     );
                   } else if (state is NoExercises) {
-                    return Center(
-                      child: Text(
-                        "No exercises added",
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface),
-                      ),
+                    return Column(
+                      children: [
+                        Text(
+                          "No exercises added",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface),
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              BlocProvider.of<ExercisesCubit>(context)
+                                  .showNewExerciseDialog(
+                                      context: context,
+                                      workoutProgramId:
+                                          widget.workoutProgram.id);
+                            },
+                            icon: const Icon(Icons.add)),
+                      ],
                     );
                   } else if (state is ExercisesFetched) {
                     return Flexible(

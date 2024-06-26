@@ -13,10 +13,12 @@ class ExerciseSetCubit extends Cubit<ExerciseSetState> {
 
   final ExercisesRepository _exerciseRepository;
 
+  List<ExerciseSet?> exerciseSets = [];
+
   void fetchExerciseSets(Exercise exercise) async {
     try {
-      final exercises = await _exerciseRepository.fetchExerciseSets(exercise);
-      emit(ExerciseSetsFetched(exercises));
+      exerciseSets = await _exerciseRepository.fetchExerciseSets(exercise);
+      emit(ExerciseSetsFetched(exerciseSets));
     } catch (e) {
       emit(ExerciseSetsError(e.toString()));
     }

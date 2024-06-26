@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_tracker/data/models/exercise.dart';
 import 'package:gym_tracker/exercise_details/cubit/exercise_set_cubit.dart';
 import 'package:gym_tracker/exercise_details/widgets/set_card.dart';
+import 'package:gym_tracker/service/exercises_repository.dart';
+import 'package:gym_tracker/service/locator.dart';
 
 class ExerciseDetails extends StatefulWidget {
   const ExerciseDetails({super.key, required this.exercise});
@@ -55,31 +57,39 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
               ),
             ),
             if (isOpened)
-              BlocBuilder<ExerciseSetCubit, ExerciseSetState>(
-                builder: (context, state) {
-                  if (state is ExerciseSetInitial) {
-                    BlocProvider.of<ExerciseSetCubit>(context)
-                        .fetchExerciseSets(widget.exercise);
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    );
-                  } else if (state is ExerciseSetsFetched) {
-                    return ListView.builder(
-                      itemCount: state.exerciseSets.length,
-                      itemBuilder: (context, index) {
-                        return SetCard(exerciseSet: state.exerciseSets[index]!);
-                      },
-                    );
-                  } else if (state is ExerciseSetsError) {
-                    return Center(
-                      child: Text(state.error),
-                    );
-                  } else {
-                    return const Center(
-                      child: Text("Something went wrong"),
-                    );
-                  }
-                },
+              BlocProvider(
+                create: (context) => ExerciseSetCubit(
+                    exerciseRepository: locator<ExercisesRepository>()),
+                child: BlocBuilder<ExerciseSetCubit, ExerciseSetState>(
+                  builder: (context, state) {
+                    if (state is ExerciseSetInitial) {
+                      BlocProvider.of<ExerciseSetCubit>(context)
+                          .fetchExerciseSets(widget.exercise);
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    } else if (state is ExerciseSetsFetched) {
+                      return ListView.builder(
+                        itemCount: state.exerciseSets.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return SetCard(
+                            exerciseSet: state.exerciseSets[index]!,
+                            index: index,
+                          );
+                        },
+                      );
+                    } else if (state is ExerciseSetsError) {
+                      return Center(
+                        child: Text(state.error),
+                      );
+                    } else {
+                      return const Center(
+                        child: Text("Something went wrong"),
+                      );
+                    }
+                  },
+                ),
               ),
           ],
         ),
