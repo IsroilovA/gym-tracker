@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_tracker/data/models/exercise_set.dart';
+import 'package:gym_tracker/exercise_details/cubit/exercise_set_cubit.dart';
 import 'package:gym_tracker/exercise_details/widgets/set_value_card.dart';
 
 class SetCard extends StatelessWidget {
@@ -26,10 +28,26 @@ class SetCard extends StatelessWidget {
               children: [
                 Text('${index + 1}'),
                 SetValueCard(
+                  onChanged: (value) {
+                    BlocProvider.of<ExerciseSetCubit>(context).saveExerciseSet(
+                        ExerciseSet(
+                            id: exerciseSet.id,
+                            repetitionCount: exerciseSet.repetitionCount,
+                            weight: double.parse(value),
+                            exerciseId: exerciseSet.exerciseId));
+                  },
                   value: exerciseSet.weight,
                   valueLabel: 'KG',
                 ),
                 SetValueCard(
+                  onChanged: (value) {
+                    BlocProvider.of<ExerciseSetCubit>(context).saveExerciseSet(
+                        ExerciseSet(
+                            id: exerciseSet.id,
+                            repetitionCount: int.parse(value),
+                            weight: exerciseSet.weight,
+                            exerciseId: exerciseSet.exerciseId));
+                  },
                   value: exerciseSet.repetitionCount,
                   valueLabel: 'Reps',
                 ),

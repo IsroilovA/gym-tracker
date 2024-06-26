@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gym_tracker/exercise_details/cubit/exercise_set_cubit.dart';
 import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
 
 class SetValueCard extends StatefulWidget {
   const SetValueCard(
-      {super.key, required this.value, required this.valueLabel});
+      {super.key,
+      required this.value,
+      required this.valueLabel,
+      required this.onChanged});
 
   final dynamic value;
   final String valueLabel;
+  final Function(dynamic value) onChanged;
 
   @override
   State<SetValueCard> createState() => _SetValueCardState();
@@ -15,6 +20,7 @@ class SetValueCard extends StatefulWidget {
 
 class _SetValueCardState extends State<SetValueCard> {
   final _nameController = TextEditingController();
+
   @override
   void initState() {
     _nameController.text = widget.value.toString();
@@ -25,6 +31,10 @@ class _SetValueCardState extends State<SetValueCard> {
   void dispose() {
     _nameController.dispose();
     super.dispose();
+  }
+
+  void save(value) {
+    widget.onChanged(value);
   }
 
   @override
@@ -41,9 +51,16 @@ class _SetValueCardState extends State<SetValueCard> {
             padding: const EdgeInsets.all(8.0),
             child: isEditing
                 ? SizedBox(
-                    width: 40,
+                    width: 50,
                     height: 10,
                     child: TextField(
+                      onEditingComplete: () {
+                        save(_nameController.text);
+                      },
+                      onTapOutside: (event) {
+                        save(_nameController.text);
+                      },
+                      keyboardType: TextInputType.number,
                       decoration:
                           const InputDecoration(border: InputBorder.none),
                       controller: _nameController,

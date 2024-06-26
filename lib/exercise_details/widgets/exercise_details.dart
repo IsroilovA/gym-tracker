@@ -106,7 +106,6 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
                                               .exerciseId));
                                 },
                               );
-                        ;
                       },
                     );
                   } else if (state is ExerciseSetsError) {
