@@ -14,6 +14,12 @@ class ExercisesCubit extends Cubit<ExercisesState> {
 
   final ExercisesRepository _exerciseRepository;
 
+  bool isEditing = false;
+
+  void changeEditingStatus() {
+    isEditing = !isEditing;
+  }
+
   void fetchProgramExercises(WorkoutProgram workoutProgram) async {
     try {
       final exercises =
@@ -31,8 +37,8 @@ class ExercisesCubit extends Cubit<ExercisesState> {
   void saveProgramExercises(Exercise exercise) {
     try {
       _exerciseRepository.saveExercise(exercise);
-      _exerciseRepository.saveExerciseSet(
-          ExerciseSet(repetitionCount: 1, weight: 0, exerciseId: exercise.id));
+      _exerciseRepository.saveExerciseSet(ExerciseSet(
+          repetitionCount: 10, weight: 20, exerciseId: exercise.id));
     } catch (e) {
       emit(ExercisesError(e.toString()));
     }

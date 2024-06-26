@@ -17,6 +17,7 @@ class ProgramDetails extends StatefulWidget {
 }
 
 class _ProgramDetailsState extends State<ProgramDetails> {
+  bool isEditing = false;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -67,7 +68,9 @@ class _ProgramDetailsState extends State<ProgramDetails> {
                       itemCount: state.exercises.length,
                       itemBuilder: (context, index) {
                         return BlocProvider(
-                          create: (context) => ExerciseSetCubit(exerciseRepository: locator<ExercisesRepository>()),
+                          create: (context) => ExerciseSetCubit(
+                              exerciseRepository:
+                                  locator<ExercisesRepository>()),
                           child: ExerciseDetails(
                               exercise: state.exercises[index]!),
                         );
@@ -84,14 +87,20 @@ class _ProgramDetailsState extends State<ProgramDetails> {
               ),
             ),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  BlocProvider.of<ExercisesCubit>(context)
+                      .changeEditingStatus();
+                  isEditing = !isEditing;
+                });
+              },
               style: OutlinedButton.styleFrom(
                   backgroundColor:
                       Theme.of(context).colorScheme.primaryContainer,
                   minimumSize: Size(size.width, 45)),
-              icon: const Icon(Icons.edit),
+              icon: Icon(isEditing ? Icons.save : Icons.edit),
               label: Text(
-                'Edit',
+                isEditing ? "Save" : 'Edit',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onPrimaryContainer),
               ),

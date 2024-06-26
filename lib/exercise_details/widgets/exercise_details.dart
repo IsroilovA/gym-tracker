@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_tracker/data/models/exercise.dart';
+import 'package:gym_tracker/data/models/exercise_set.dart';
 import 'package:gym_tracker/exercise_details/cubit/exercise_set_cubit.dart';
 import 'package:gym_tracker/exercise_details/widgets/set_card.dart';
 import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
-import 'package:gym_tracker/service/exercises_repository.dart';
-import 'package:gym_tracker/service/locator.dart';
 
 class ExerciseDetails extends StatefulWidget {
   const ExerciseDetails({super.key, required this.exercise});
@@ -17,7 +16,7 @@ class ExerciseDetails extends StatefulWidget {
 }
 
 class _ExerciseDetailsState extends State<ExerciseDetails> {
-  bool isOpened = false;
+  bool isOpened = true;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -53,11 +52,15 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
                       const SizedBox(height: 8),
                       BlocBuilder<ExerciseSetCubit, ExerciseSetState>(
                         builder: (context, state) {
-                          BlocProvider.of<ExerciseSetCubit>(context)
-                              .fetchExerciseSets(widget.exercise);
-                          final exercises = context.select(
-                              (ExerciseSetCubit cubit) => cubit.exerciseSets);
-                          return Text('${exercises.length} Sets');
+                          if (state is ExerciseSetInitial) {
+                            BlocProvider.of<ExerciseSetCubit>(context)
+                                .fetchExerciseSets(widget.exercise);
+                          } else if (state is ExerciseSetsFetched) {
+                            return Text('${state.exerciseSets.length} Sets');
+                          }
+                          return const Center(
+                            child: Text("Something went wrong"),
+                          );
                         },
                       ),
                     ],
@@ -73,14 +76,37 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
                       child: CircularProgressIndicator.adaptive(),
                     );
                   } else if (state is ExerciseSetsFetched) {
+                    final isEditing = context.select(
+                        (ExercisesCubit exerciseCubit) =>
+                            exerciseCubit.isEditing);
                     return ListView.builder(
-                      itemCount: state.exerciseSets.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: isEditing
+                          ? state.exerciseSets.length + 1
+                          : state.exerciseSets.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return SetCard(
-                          exerciseSet: state.exerciseSets[index]!,
-                          index: index,
-                        );
+                        return (index != state.exerciseSets.length)
+                            ? SetCard(
+                                exerciseSet: state.exerciseSets[index]!,
+                                index: index,
+                              )
+                            : IconButton(
+                                icon: const Icon(Icons.add),
+                                onPressed: () {
+                                  BlocProvider.of<ExerciseSetCubit>(context)
+                                      .saveExerciseSet(ExerciseSet(
+                                          repetitionCount: state
+                                              .exerciseSets[index - 1]!
+                                              .repetitionCount,
+                                          weight: state
+                                              .exerciseSets[index - 1]!.weight,
+                                          exerciseId: state
+                                              .exerciseSets[index - 1]!
+                                              .exerciseId));
+                                },
+                              );
+                        ;
                       },
                     );
                   } else if (state is ExerciseSetsError) {
