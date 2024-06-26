@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
+import 'package:gym_tracker/exercise_details/cubit/exercise_set_cubit.dart';
 import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
 import 'package:gym_tracker/exercise_details/widgets/exercise_details.dart';
+import 'package:gym_tracker/service/exercises_repository.dart';
+import 'package:gym_tracker/service/locator.dart';
 
 class ProgramDetails extends StatefulWidget {
   const ProgramDetails({super.key, required this.workoutProgram});
@@ -58,16 +61,17 @@ class _ProgramDetailsState extends State<ProgramDetails> {
                       ],
                     );
                   } else if (state is ExercisesFetched) {
-                    return Flexible(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: state.exercises.length,
-                        itemBuilder: (context, index) {
-                          return ExerciseDetails(
-                              exercise: state.exercises[index]!);
-                        },
-                      ),
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.exercises.length,
+                      itemBuilder: (context, index) {
+                        return BlocProvider(
+                          create: (context) => ExerciseSetCubit(exerciseRepository: locator<ExercisesRepository>()),
+                          child: ExerciseDetails(
+                              exercise: state.exercises[index]!),
+                        );
+                      },
                     );
                   } else if (state is ExercisesError) {
                     return Center(child: Text(state.error));
