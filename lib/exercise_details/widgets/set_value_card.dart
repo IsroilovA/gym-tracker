@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gym_tracker/exercise_details/cubit/exercise_set_cubit.dart';
 import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
 
 class SetValueCard extends StatefulWidget {
@@ -34,7 +33,9 @@ class _SetValueCardState extends State<SetValueCard> {
   }
 
   void save(value) {
-    widget.onChanged(value);
+    if (_nameController.text != widget.value.toString()) {
+      widget.onChanged(value);
+    }
   }
 
   @override
