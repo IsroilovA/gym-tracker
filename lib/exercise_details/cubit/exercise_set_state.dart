@@ -14,4 +14,3 @@ final class ExerciseSetsError extends ExerciseSetState {
   final String error;
   ExerciseSetsError(this.error);
 }
-

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
 import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
-import 'package:gym_tracker/exercise_detaild/widgets/exercise_details.dart';
+import 'package:gym_tracker/exercise_details/widgets/exercise_details.dart';
 
 class ProgramDetails extends StatefulWidget {
   const ProgramDetails({super.key, required this.workoutProgram});
