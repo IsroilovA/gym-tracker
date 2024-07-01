@@ -65,15 +65,28 @@ class _ProgramDetailsState extends State<ProgramDetails> {
                     return ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.exercises.length,
+                      itemCount: isEditing
+                          ? state.exercises.length + 1
+                          : state.exercises.length,
                       itemBuilder: (context, index) {
-                        return BlocProvider(
-                          create: (context) => ExerciseSetCubit(
-                              exerciseRepository:
-                                  locator<ExercisesRepository>()),
-                          child: ExerciseDetails(
-                              exercise: state.exercises[index]!),
-                        );
+                        return (index != state.exercises.length)
+                            ? BlocProvider(
+                                create: (context) => ExerciseSetCubit(
+                                    exerciseRepository:
+                                        locator<ExercisesRepository>()),
+                                child: ExerciseDetails(
+                                    exercise: state.exercises[index]!),
+                              )
+                            : TextButton.icon(
+                                onPressed: () {
+                                  BlocProvider.of<ExercisesCubit>(context)
+                                      .showNewExerciseDialog(
+                                          context: context,
+                                          workoutProgramId:
+                                              widget.workoutProgram.id);
+                                },
+                                label: const Text('New Exercise'),
+                                icon: const Icon(Icons.add));
                       },
                     );
                   } else if (state is ExercisesError) {
