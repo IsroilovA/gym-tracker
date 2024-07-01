@@ -79,18 +79,6 @@ class _WorkoutCardState extends State<WorkoutCard> {
                       return [
                         PopupMenuItem(
                             onTap: () {
-                              BlocProvider.of<ExercisesCubit>(context)
-                                  .showNewExerciseDialog(
-                                      context: context,
-                                      workoutProgramId:
-                                          widget.workoutProgram.id);
-                            },
-                            child: const ListTile(
-                              title: Text('add new exercise'),
-                              leading: Icon(Icons.add),
-                            )),
-                        PopupMenuItem(
-                            onTap: () {
                               setState(() {
                                 isEdit = true;
                                 _nameFocus.requestFocus();

@@ -22,9 +22,6 @@ class HomeScreen extends StatelessWidget {
               builder: (context, state) {
                 if (state is ProgramsInitial) {
                   BlocProvider.of<ProgramsCubit>(context).fetchPrograms();
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  );
                 } else if (state is NoPrograms) {
                   return Column(
                     children: [
@@ -50,10 +47,10 @@ class HomeScreen extends StatelessWidget {
                         return (index != state.workoutPrograms.length)
                             ? BlocProvider(
                                 create: (context) => ExercisesCubit(
-                        exerciseRepository: locator<ExercisesRepository>()),
+                                    exerciseRepository:
+                                        locator<ExercisesRepository>()),
                                 child: WorkoutCard(
-                                  workoutProgram:
-                                      state.workoutPrograms[index]!,
+                                  workoutProgram: state.workoutPrograms[index]!,
                                 ),
                               )
                             : IconButton(
@@ -68,11 +65,10 @@ class HomeScreen extends StatelessWidget {
                   );
                 } else if (state is ProgramsError) {
                   return Center(child: Text(state.error));
-                } else {
-                  return const Center(
-                    child: Text("Something went wrong"),
-                  );
                 }
+                return const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                );
               },
             )
           ],
