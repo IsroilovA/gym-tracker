@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gym_tracker/data/models/workout_program.dart';
 import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
 import 'package:gym_tracker/home/cubit/programs_cubit.dart';
 import 'package:gym_tracker/home/widgets/workout_card.dart';
 import 'package:gym_tracker/service/exercises_repository.dart';
+import 'package:gym_tracker/service/helper_functions.dart';
 import 'package:gym_tracker/service/locator.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -32,8 +34,14 @@ class HomeScreen extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          BlocProvider.of<ProgramsCubit>(context)
-                              .showNewWorkoutDialog(context);
+                          showNewEntryDialog(
+                            context: context,
+                            onSaveClicked: (name) {
+                              BlocProvider.of<ProgramsCubit>(context)
+                                  .saveWorkoutProgram(
+                                      WorkoutProgram(name: name));
+                            },
+                          );
                         },
                         icon: const Icon(Icons.add),
                       ),
@@ -56,8 +64,14 @@ class HomeScreen extends StatelessWidget {
                             : IconButton(
                                 icon: const Icon(Icons.add),
                                 onPressed: () {
-                                  BlocProvider.of<ProgramsCubit>(context)
-                                      .showNewWorkoutDialog(context);
+                                  showNewEntryDialog(
+                                    context: context,
+                                    onSaveClicked: (name) {
+                                      BlocProvider.of<ProgramsCubit>(context)
+                                          .saveWorkoutProgram(
+                                              WorkoutProgram(name: name));
+                                    },
+                                  );
                                 },
                               );
                       },

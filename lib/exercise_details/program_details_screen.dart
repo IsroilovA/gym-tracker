@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gym_tracker/data/models/exercise.dart';
 import 'package:gym_tracker/data/models/workout_program.dart';
 import 'package:gym_tracker/exercise_details/cubit/exercise_set_cubit.dart';
 import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
 import 'package:gym_tracker/exercise_details/widgets/exercise_details.dart';
 import 'package:gym_tracker/service/exercises_repository.dart';
+import 'package:gym_tracker/service/helper_functions.dart';
 import 'package:gym_tracker/service/locator.dart';
 
 class ProgramDetails extends StatefulWidget {
@@ -52,11 +54,17 @@ class _ProgramDetailsState extends State<ProgramDetails> {
                         ),
                         IconButton(
                             onPressed: () {
-                              BlocProvider.of<ExercisesCubit>(context)
-                                  .showNewExerciseDialog(
-                                      context: context,
-                                      workoutProgramId:
-                                          widget.workoutProgram.id);
+                             showNewEntryDialog(
+                                    context: context,
+                                    isWorkout: false,
+                                    onSaveClicked: (name) {
+                                      BlocProvider.of<ExercisesCubit>(context)
+                                          .saveProgramExercises(Exercise(
+                                              name: name,
+                                              programId:
+                                                  widget.workoutProgram.id));
+                                    },
+                                  );
                             },
                             icon: const Icon(Icons.add)),
                       ],
@@ -79,11 +87,17 @@ class _ProgramDetailsState extends State<ProgramDetails> {
                               )
                             : TextButton.icon(
                                 onPressed: () {
-                                  BlocProvider.of<ExercisesCubit>(context)
-                                      .showNewExerciseDialog(
-                                          context: context,
-                                          workoutProgramId:
-                                              widget.workoutProgram.id);
+                                  showNewEntryDialog(
+                                    context: context,
+                                    isWorkout: false,
+                                    onSaveClicked: (name) {
+                                      BlocProvider.of<ExercisesCubit>(context)
+                                          .saveProgramExercises(Exercise(
+                                              name: name,
+                                              programId:
+                                                  widget.workoutProgram.id));
+                                    },
+                                  );
                                 },
                                 label: const Text('New Exercise'),
                                 icon: const Icon(Icons.add));
