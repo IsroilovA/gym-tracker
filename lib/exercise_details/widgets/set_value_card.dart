@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
 
@@ -52,9 +53,13 @@ class _SetValueCardState extends State<SetValueCard> {
             padding: const EdgeInsets.all(8.0),
             child: isEditing
                 ? SizedBox(
-                    width: 50,
+                    width: widget.valueLabel == 'KG' ? 80 : 40,
                     height: 10,
                     child: TextField(
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d*\.?\d{0,2}'))
+                      ],
                       onEditingComplete: () {
                         save(_nameController.text);
                       },
