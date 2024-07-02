@@ -4,6 +4,7 @@ import 'package:gym_tracker/data/models/workout_program.dart';
 import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
 import 'package:gym_tracker/home/cubit/programs_cubit.dart';
 import 'package:gym_tracker/home/widgets/exercise_card.dart';
+import 'package:gym_tracker/service/helper_functions.dart';
 
 class WorkoutCard extends StatefulWidget {
   const WorkoutCard({super.key, required this.workoutProgram});
@@ -90,8 +91,15 @@ class _WorkoutCardState extends State<WorkoutCard> {
                             )),
                         PopupMenuItem(
                             onTap: () {
-                              BlocProvider.of<ProgramsCubit>(context)
-                                  .deleteWorkout(widget.workoutProgram);
+                              showWarningAlertDialog(
+                                  context: context,
+                                  onYesClicked: () {
+                                    BlocProvider.of<ProgramsCubit>(context)
+                                        .deleteWorkout(widget.workoutProgram);
+                                    Navigator.of(context).pop();
+                                  },
+                                  text:
+                                      'Are you sure you want to delete the programm and all the related exercises?');
                             },
                             child: const ListTile(
                               title: Text('delete workout'),
