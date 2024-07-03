@@ -54,17 +54,16 @@ class _ProgramDetailsState extends State<ProgramDetails> {
                         ),
                         IconButton(
                             onPressed: () {
-                             showNewEntryDialog(
-                                    context: context,
-                                    isWorkout: false,
-                                    onSaveClicked: (name) {
-                                      BlocProvider.of<ExercisesCubit>(context)
-                                          .saveProgramExercises(Exercise(
-                                              name: name,
-                                              programId:
-                                                  widget.workoutProgram.id));
-                                    },
-                                  );
+                              showNewEntryDialog(
+                                context: context,
+                                isWorkout: false,
+                                onSaveClicked: (name) {
+                                  BlocProvider.of<ExercisesCubit>(context)
+                                      .saveProgramExercises(Exercise(
+                                          name: name,
+                                          programId: widget.workoutProgram.id));
+                                },
+                              );
                             },
                             icon: const Icon(Icons.add)),
                       ],
