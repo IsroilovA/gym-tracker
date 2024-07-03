@@ -51,11 +51,31 @@ class ExercisesRepository {
   Future<void> deleteWorkout(WorkoutProgram workoutProgram) async {
     await _workoutProgramsBox.delete(workoutProgram.id);
     final exercises = _exercisesBox.values.where(
-      (element) => element!.programId == workoutProgram.id,
+      (exercise) => exercise!.programId == workoutProgram.id,
     );
     for (final exercise in exercises) {
+      final sets = _exerciseSetsBox.values.where(
+        (set) => set!.exerciseId == exercise!.id,
+      );
+      for (var set in sets) {
+        _exerciseSetsBox.delete(set!.id);
+      }
       _exercisesBox.delete(exercise!.id);
     }
+  }
+
+  Future<void> deleteExercise(Exercise exercise) async {
+    await _exercisesBox.delete(exercise.id);
+    final sets = _exerciseSetsBox.values.where(
+      (set) => set!.exerciseId == exercise.id,
+    );
+    for (var set in sets) {
+      _exerciseSetsBox.delete(set!.id);
+    }
+  }
+
+  Future<void> deleteSet(ExerciseSet exerciseSet) async {
+    await _exerciseSetsBox.delete(exerciseSet.id);
   }
 
   Future<void> editWorkoutName(WorkoutProgram workoutProgram) async {
@@ -63,6 +83,9 @@ class ExercisesRepository {
   }
 
   List<WorkoutProgram?> fetchWorkoutPrograms() {
+    print(_exerciseSetsBox.values.length);
+    print(_exercisesBox.values);
+    print(_workoutProgramsBox.values);
     final List<WorkoutProgram?> workoutPrograms = [];
     for (var program in _workoutProgramsBox.values) {
       workoutPrograms.add(_workoutProgramsBox.get(program!.id));

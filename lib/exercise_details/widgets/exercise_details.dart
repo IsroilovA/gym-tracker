@@ -40,30 +40,51 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
                     size: 40,
                   ),
                   const SizedBox(width: 15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.exercise.name,
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface,
+                  Expanded(
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      direction: Axis.horizontal,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.exercise.name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
                             ),
-                      ),
-                      const SizedBox(height: 8),
-                      BlocBuilder<ExerciseSetCubit, ExerciseSetState>(
-                        builder: (context, state) {
-                          if (state is ExerciseSetInitial) {
-                            BlocProvider.of<ExerciseSetCubit>(context)
-                                .fetchExerciseSets(widget.exercise);
-                          } else if (state is ExerciseSetsFetched) {
-                            return Text('${state.exerciseSets.length} Sets');
-                          }
-                          return const Center(
-                            child: Text("Something went wrong"),
-                          );
-                        },
-                      ),
-                    ],
+                            const SizedBox(height: 8),
+                            BlocBuilder<ExerciseSetCubit, ExerciseSetState>(
+                              builder: (context, state) {
+                                if (state is ExerciseSetInitial) {
+                                  BlocProvider.of<ExerciseSetCubit>(context)
+                                      .fetchExerciseSets(widget.exercise);
+                                } else if (state is ExerciseSetsFetched) {
+                                  return Text(
+                                      '${state.exerciseSets.length} Sets');
+                                }
+                                return const Center(
+                                  child: Text("Something went wrong"),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                        if (context.select((ExercisesCubit exerciseCubit) =>
+                            exerciseCubit.isEditing))
+                          IconButton(
+                              onPressed: () {
+                                BlocProvider.of<ExercisesCubit>(context)
+                                    .deleteExercise(widget.exercise);
+                              },
+                              icon: const Icon(Icons.delete))
+                      ],
+                    ),
                   ),
                 ],
               ),

@@ -34,6 +34,15 @@ class ExercisesCubit extends Cubit<ExercisesState> {
     }
   }
 
+  void deleteExercise(Exercise exercise) {
+    try {
+      _exerciseRepository.deleteExercise(exercise);
+      emit(ExercisesInitial());
+    } catch (e) {
+      emit(ExercisesError(e.toString()));
+    }
+  }
+
   void saveProgramExercises(Exercise exercise) {
     try {
       _exerciseRepository.saveExercise(exercise);
