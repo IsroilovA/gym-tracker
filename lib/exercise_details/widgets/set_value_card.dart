@@ -55,21 +55,28 @@ class _SetValueCardState extends State<SetValueCard> {
                 ? SizedBox(
                     width: widget.valueLabel == 'KG' ? 80 : 40,
                     height: 10,
-                    child: TextField(
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                            RegExp(r'^\d*\.?\d{0,2}'))
-                      ],
-                      onEditingComplete: () {
-                        save(_nameController.text);
+                    child: Focus(
+                      onFocusChange: (value) {
+                        if (!value) {
+                          save(_nameController.text);
+                        }
                       },
-                      onTapOutside: (event) {
-                        save(_nameController.text);
-                      },
-                      keyboardType: TextInputType.number,
-                      decoration:
-                          const InputDecoration(border: InputBorder.none),
-                      controller: _nameController,
+                      child: TextField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d*\.?\d{0,2}'))
+                        ],
+                        // onEditingComplete: () {
+                        //   save(_nameController.text);
+                        // },
+                        // onTapOutside: (event) {
+                        //   save(_nameController.text);
+                        // },
+                        keyboardType: TextInputType.number,
+                        decoration:
+                            const InputDecoration(border: InputBorder.none),
+                        controller: _nameController,
+                      ),
                     ),
                   )
                 : Text('${widget.value}'),
