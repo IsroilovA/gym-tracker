@@ -66,12 +66,9 @@ class _SetValueCardState extends State<SetValueCard> {
                           FilteringTextInputFormatter.allow(
                               RegExp(r'^\d*\.?\d{0,2}'))
                         ],
-                        // onEditingComplete: () {
-                        //   save(_nameController.text);
-                        // },
-                        // onTapOutside: (event) {
-                        //   save(_nameController.text);
-                        // },
+                        onTapOutside: (event) {
+                          save(_nameController.text);
+                        },
                         keyboardType: TextInputType.number,
                         decoration:
                             const InputDecoration(border: InputBorder.none),
