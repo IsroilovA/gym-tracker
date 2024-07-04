@@ -67,6 +67,8 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
                                 } else if (state is ExerciseSetsFetched) {
                                   return Text(
                                       '${state.exerciseSets.length} Sets');
+                                } else if (state is NoSets) {
+                                  return const Text("No sets");
                                 }
                                 return const Center(
                                   child: Text("Something went wrong"),
@@ -133,6 +135,24 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
                     return Center(
                       child: Text(state.error),
                     );
+                  } else if (state is NoSets) {
+                    return context.select((ExercisesCubit exerciseCubit) =>
+                            exerciseCubit.isEditing)
+                        ? Center(
+                            child: IconButton(
+                              icon: const Icon(Icons.add),
+                              onPressed: () {
+                                BlocProvider.of<ExerciseSetCubit>(context)
+                                    .saveExerciseSet(
+                                  ExerciseSet(
+                                      repetitionCount: 10,
+                                      weight: 20,
+                                      exerciseId: widget.exercise.id),
+                                );
+                              },
+                            ),
+                          )
+                        : const SizedBox();
                   } else {
                     return const Center(
                       child: Text("Something went wrong"),

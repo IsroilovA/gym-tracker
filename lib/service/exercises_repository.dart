@@ -83,9 +83,6 @@ class ExercisesRepository {
   }
 
   List<WorkoutProgram?> fetchWorkoutPrograms() {
-    print(_exerciseSetsBox.values.length);
-    print(_exercisesBox.values);
-    print(_workoutProgramsBox.values);
     final List<WorkoutProgram?> workoutPrograms = [];
     for (var program in _workoutProgramsBox.values) {
       workoutPrograms.add(_workoutProgramsBox.get(program!.id));

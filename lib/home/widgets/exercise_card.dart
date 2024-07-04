@@ -42,6 +42,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
                   } else if (state is ExerciseSetsFetched) {
                     return Text(
                         '${state.exerciseSets.length} x ${state.exerciseSets.first!.repetitionCount}');
+                  }else if(state is NoSets){
+                    return const Text("No sets");
                   }
                   return const Center(
                     child: Text("Something went wrong"),

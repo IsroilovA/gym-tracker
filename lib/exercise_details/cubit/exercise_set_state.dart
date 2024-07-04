@@ -5,6 +5,8 @@ sealed class ExerciseSetState {}
 
 final class ExerciseSetInitial extends ExerciseSetState {}
 
+final class NoSets extends ExerciseSetState {}
+
 final class ExerciseSetsFetched extends ExerciseSetState {
   final List<ExerciseSet?> exerciseSets;
   ExerciseSetsFetched(this.exerciseSets);

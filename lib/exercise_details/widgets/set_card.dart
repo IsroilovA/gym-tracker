@@ -16,44 +16,60 @@ class SetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Theme.of(context).colorScheme.inversePrimary,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 25),
-        child: Column(
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('${index + 1}'),
-                SetValueCard(
-                  onChanged: (value) {
-                    BlocProvider.of<ExerciseSetCubit>(context).saveExerciseSet(
-                        ExerciseSet(
-                            id: exerciseSet.id,
-                            repetitionCount: exerciseSet.repetitionCount,
-                            weight: double.parse(value),
-                            exerciseId: exerciseSet.exerciseId));
-                  },
-                  value: exerciseSet.weight,
-                  valueLabel: 'KG',
-                ),
-                SetValueCard(
-                  onChanged: (value) {
-                    BlocProvider.of<ExerciseSetCubit>(context).saveExerciseSet(
-                        ExerciseSet(
-                            id: exerciseSet.id,
-                            repetitionCount: int.parse(value),
-                            weight: exerciseSet.weight,
-                            exerciseId: exerciseSet.exerciseId));
-                  },
-                  value: exerciseSet.repetitionCount,
-                  valueLabel: 'Reps',
-                ),
-              ],
-            )
-          ],
+    return Dismissible(
+      key: ValueKey(exerciseSet.id),
+      onDismissed: (direction) {
+        BlocProvider.of<ExerciseSetCubit>(context).deleteSet(exerciseSet);
+      },
+      background: Material(
+        color: Colors.red,
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Icon(
+            Icons.delete,
+            color: Theme.of(context).colorScheme.surface,
+          ),
+        ),
+      ),
+      child: Card(
+        color: Theme.of(context).colorScheme.inversePrimary,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 25),
+          child: Column(
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('${index + 1}'),
+                  SetValueCard(
+                    onChanged: (value) {
+                      BlocProvider.of<ExerciseSetCubit>(context)
+                          .saveExerciseSet(ExerciseSet(
+                              id: exerciseSet.id,
+                              repetitionCount: exerciseSet.repetitionCount,
+                              weight: double.parse(value),
+                              exerciseId: exerciseSet.exerciseId));
+                    },
+                    value: exerciseSet.weight,
+                    valueLabel: 'KG',
+                  ),
+                  SetValueCard(
+                    onChanged: (value) {
+                      BlocProvider.of<ExerciseSetCubit>(context)
+                          .saveExerciseSet(ExerciseSet(
+                              id: exerciseSet.id,
+                              repetitionCount: int.parse(value),
+                              weight: exerciseSet.weight,
+                              exerciseId: exerciseSet.exerciseId));
+                    },
+                    value: exerciseSet.repetitionCount,
+                    valueLabel: 'Reps',
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
