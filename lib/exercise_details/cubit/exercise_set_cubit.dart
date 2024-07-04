@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:gym_tracker/data/models/exercise.dart';
 import 'package:gym_tracker/data/models/exercise_set.dart';
-import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
 import 'package:gym_tracker/service/exercises_repository.dart';
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 
 part 'exercise_set_state.dart';
