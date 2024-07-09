@@ -4,7 +4,7 @@ import 'package:gym_tracker/data/models/exercise.dart';
 import 'package:gym_tracker/data/models/exercise_set.dart';
 import 'package:gym_tracker/exercise_details/cubit/exercise_set_cubit.dart';
 import 'package:gym_tracker/exercise_details/widgets/set_card.dart';
-import 'package:gym_tracker/home/cubit/exercises_cubit.dart';
+import 'package:gym_tracker/exercise_details/cubit/exercises_cubit.dart';
 
 class ExerciseDetails extends StatefulWidget {
   const ExerciseDetails({super.key, required this.exercise});
