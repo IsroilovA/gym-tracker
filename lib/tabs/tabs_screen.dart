@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gym_tracker/calendar/calendar.dart';
+import 'package:gym_tracker/calendar/calendar_screen.dart';
 import 'package:gym_tracker/home/cubit/programs_cubit.dart';
 import 'package:gym_tracker/home/home_screen.dart';
 import 'package:gym_tracker/service/exercises_repository.dart';
@@ -45,7 +45,7 @@ class _TabsScreenState extends State<TabsScreen> {
                       exerciseRepository: locator<ExercisesRepository>()),
                   child: const HomeScreen(),
                 ),
-                const Calendar(),
+                const CalendarScreen(),
               ],
             );
           } else if (state is TabsError) {
