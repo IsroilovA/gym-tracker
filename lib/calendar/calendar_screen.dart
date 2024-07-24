@@ -28,6 +28,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
             focusedDay: today,
             firstDay: DateTime(2020),
             lastDay: DateTime(2025),
+            eventLoader: (day) {
+              return [];
+            },
           ),
           const SizedBox(height: 10),
           const Card(
